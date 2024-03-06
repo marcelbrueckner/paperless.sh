@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<svg width="1300" height="1000" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 1000 1000" version="1.1" xml:space="preserve">
+ <style type="text/css">.st0{fill:#17541F;}</style>
+ <g class="layer">
+  <title>Layer 1</title>
+  <path class="st0" d="m200,891.7c-4.2,-19.8 -12.5,-59.6 -13.6,-59.6c-176.7,-105.7 -155.8,-288.7 -97.3,-393.4c12.5,131.8 245.8,222.8 109.8,383.9c-1.1,2 6.2,27.2 12.5,50.2c27.2,-46 68,-101.4 65.8,-106.7c-167.3,-407.9 355.7,-439.2 464.4,-692.4c49.1,244.8 -25.1,623.5 -445.5,719.7c-2,1.1 -76.3,131.8 -79.5,132.9c0,-2 -31.4,-1.1 -27.2,-11.5c2.3,-6.4 6.4,-14.7 10.6,-23.1l0,0zm-5.2,-98.3c53.3,-61.8 -9.4,-167.4 -47.1,-201.9c63.8,109.8 59.6,173.6 47.1,201.9l0,0z" id="svg_1" transform="matrix(1, 0, 0, 1, 0, 0)"/>
+  <use id="svg_4" transform="matrix(13.8889, 0, 0, 13.8889, 0, 0)" x="0" xlink:href="#svg_3" y="0"/>
+  <text class="st0" fill-opacity="null" font-family="Serif" font-size="24" id="svg_5" stroke="#000000" stroke-dasharray="null" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="null" stroke-width="0" text-anchor="middle" transform="matrix(31.1665, 0, 0, 41.1476, -5692.19, -7565.17)" x="213.28" xml:space="preserve" y="203.34">_</text>
+ </g>
+</svg>
