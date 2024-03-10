@@ -31,7 +31,6 @@ theme:
     - content.action.edit
   icon:
     repo: fontawesome/brands/github
-  favicon: assets/favicon.png
 repo_url: https://github.com/marcelbrueckner/paperless.sh
 repo_name: marcelbrueckner/paperless.sh
 edit_uri: blob/main/docs/
