@@ -12,6 +12,7 @@ CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
 PAPERLESS_URL = os.environ.get('PAPERLESS_URL')
 
 # Document information
+# Can be used to compose a custom notification message (see further below)
 DOCUMENT_ID = os.environ.get('DOCUMENT_ID')
 DOCUMENT_FILE_NAME = os.environ.get('DOCUMENT_FILE_NAME')
 DOCUMENT_ARCHIVE_PATH = os.environ.get('DOCUMENT_ARCHIVE_PATH')
@@ -31,14 +32,14 @@ async def send_message():
     # Adjust according to your timezone, e.g. Europe/Berlin is UTC+1
     document_date = datetime.fromisoformat(DOCUMENT_CREATED) + timedelta(hours=1)
     message = f"""
-        Ein neues Dokument wurde hinzugefügt.
+        A new document has been added.
 
         ID: {DOCUMENT_ID}
-        Korrespondent: {DOCUMENT_CORRESPONDENT}
-        Dateiname: {DOCUMENT_ORIGINAL_FILENAME}
-        Dokumentendatum: {document_date.date()}
+        Correspondent: {DOCUMENT_CORRESPONDENT}
+        Filename: {DOCUMENT_ORIGINAL_FILENAME}
+        Date created: {document_date.date()}
 
-        Vorschau: {PAPERLESS_URL}/api/documents/{DOCUMENT_ID}/preview/
+        Preview: {PAPERLESS_URL}/api/documents/{DOCUMENT_ID}/preview/
         Details: {PAPERLESS_URL}/documents/{DOCUMENT_ID}/details
 
         Tags:
