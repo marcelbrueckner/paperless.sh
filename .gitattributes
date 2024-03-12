@@ -1,0 +1,3 @@
+# GitHub Linguist overrides
+# https://github.com/github-linguist/linguist
+*.yml.tpl linguist-language=yaml
