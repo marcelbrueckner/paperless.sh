@@ -6,11 +6,12 @@ name: Deploy MkDocs to GitHub Pages
 on:
   push:
     branches:
-      - $default-branch
+      - 'main'
     paths:
       - 'docs/**'
       - 'scripts/**'
       - 'mkdocs.yml'
+      - '.github/workflows/mkdocs-gh-pages.yml'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
