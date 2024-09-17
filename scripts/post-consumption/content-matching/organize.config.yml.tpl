@@ -20,5 +20,5 @@ rules:
       - filecontent: 'Amount due.*(?P<amount>\d{2}\.\d{2})'
     actions:
       - echo: "Home Assistant hooray"
-      - shell: "./pngx-update-document.py --url http://localhost:8000 --document-id {env.DOCUMENT_ID} --title '{filecontent.title}' --custom-field-id 1 --custom-field-value {filecontent.amount}"
+      - shell: "pngx edit {env.DOCUMENT_ID} --title '{filecontent.title}' --custom-fields 1={filecontent.amount}"
       - echo: "{shell.output}"
