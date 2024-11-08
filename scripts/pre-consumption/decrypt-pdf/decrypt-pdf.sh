@@ -16,14 +16,14 @@ SCRIPT_DIR=$(dirname "$SCRIPT_PATH")
 SCRIPT_NAME=$(basename "$SCRIPT_PATH")
 CONSUMABLE=$(basename "$DOCUMENT_WORKING_PATH")
 
-echo "--- $(TZ=$PAPERLESS_TIME_ZONE date '+%F %H:%M:%S') | ${SCRIPT_NAME} -------------------------------------"
+printf -- '--- %(%F %H:%M:%S)T | %s -------------------------------------\n' -1 ${SCRIPT_NAME}
 
 PWDCOUNT=$(wc -l "$SCRIPT_DIR/passwords.txt" | cut -f 1 -d ' ')
-echo "passwords.txt has $PWDCOUNT entries."
+printf 'passwords.txt has %u entries.\n' ${PWDCOUNT}
 
 if qpdf --is-encrypted "$DOCUMENT_WORKING_PATH"; then
     DECODED=0
-    echo "${CONSUMABLE} is encrypted, trying to decrypt..."
+    printf '%s is encrypted, trying to decrypt... ' ${CONSUMABLE}
     
     IFS=''
     while read -r pwd_line; do
@@ -32,10 +32,13 @@ if qpdf --is-encrypted "$DOCUMENT_WORKING_PATH"; then
         case $? in
             3)
                 qpdf --decrypt --password="$pwd_line" "$DOCUMENT_WORKING_PATH" --replace-input
-                echo "decrypted"
+                printf 'decrypted\n'
                 DECODED=1
                 if [ ${#pwd_line} -ge 5 ] ; then
-                    echo "password reminder: password has $(echo -n $pwd_line | wc -m ) characters, starts with ${pwd_line: 0: 1} and ends with ${pwd_line: -1}"
+                    printf 'password reminder: password has %u characters, starts with %s and ends with %s\n' \
+                        $(echo -n $pwd_line | wc -m ) \
+                        ${pwd_line: 0: 1} \
+                        ${pwd_line: -1}
                 fi
                 
                 break
@@ -48,11 +51,11 @@ if qpdf --is-encrypted "$DOCUMENT_WORKING_PATH"; then
     done < "$SCRIPT_DIR/passwords.txt"
     
     if [[ "$DECODED" -ne "1" ]]; then
-        echo "decryption attempt failed, no password entry matches"
+        printf '\ndecryption attempt failed, no password entry matches\n'
     fi
 
 else
-    echo "${CONSUMABLE} is unencrypted, nothing to do"
+    printf '%s is unencrypted, nothing to do\n' ${CONSUMABLE}
 fi
 
-echo "--- $(TZ=$PAPERLESS_TIME_ZONE date '+%F %H:%M:%S') -------------------------------------"
+printf -- '--- %(%F %H:%M:%S)T -------------------------------------\n' -1
