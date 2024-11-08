@@ -13,15 +13,17 @@
 # TASK_ID 	UUID of the task used to process the new document (if any)
 SCRIPT_PATH=$(readlink -f "$0")
 SCRIPT_DIR=$(dirname "$SCRIPT_PATH")
+SCRIPT_NAME=$(basename "$SCRIPT_PATH")
+CONSUMABLE=$(basename "$DOCUMENT_WORKING_PATH")
 
-echo "--- $(TZ=$PAPERLESS_TIME_ZONE date '+%F %H:%M:%S') | $(basename "$SCRIPT_PATH") -------------------------------------"
+echo "--- $(TZ=$PAPERLESS_TIME_ZONE date '+%F %H:%M:%S') | ${SCRIPT_NAME} -------------------------------------"
 
 PWDCOUNT=$(wc -l "$SCRIPT_DIR/passwords.txt" | cut -f 1 -d ' ')
 echo "passwords.txt has $PWDCOUNT entries."
 
 if qpdf --is-encrypted "$DOCUMENT_WORKING_PATH"; then
-    echo "$(basename "$DOCUMENT_WORKING_PATH") is encrypted, trying to decrypt..."
     DECODED=0
+    echo "${CONSUMABLE} is encrypted, trying to decrypt..."
     
     IFS=''
     while read -r pwd_line; do
@@ -50,7 +52,7 @@ if qpdf --is-encrypted "$DOCUMENT_WORKING_PATH"; then
     fi
 
 else
-    echo "$(basename "$DOCUMENT_WORKING_PATH") is unencrypted, nothing to do"
+    echo "${CONSUMABLE} is unencrypted, nothing to do"
 fi
 
 echo "--- $(TZ=$PAPERLESS_TIME_ZONE date '+%F %H:%M:%S') -------------------------------------"
