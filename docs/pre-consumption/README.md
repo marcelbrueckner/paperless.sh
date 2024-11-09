@@ -30,7 +30,7 @@ paperless-ngx/
 ```
 
 The pre-consumption "wrapper" just contains some helper variables and calls to your actual pre-consumption scripts.
-
+<a name="pre-consumption-wrapper" />
 ```bash title="pre-consumption-wrapper.sh"
 #!/usr/bin/env bash
 
