@@ -6,15 +6,15 @@
 # uses qpdf to test consumed pdf for encryption and try a list of pre-supplied passwords
 # if one matches, attempts to remove encryption from file
 #
-# user can supply a list of passwords to try via *.pwd.txt files
+# the user can supply the lists of passwords via *.pwd.txt files
 # the file 'personal.pwd.txt' is reserved for the user's true passwords and guarded
 # via .gitignore against unintentional disclosure
 #
 
-#Environment Variable 	Description
-# DOCUMENT_SOURCE_PATH 	Original path of the consumed document
+# Environment Variable 		Description
+# DOCUMENT_SOURCE_PATH 		Original path of the consumed document
 # DOCUMENT_WORKING_PATH 	Path to a copy of the original that consumption will work on
-# TASK_ID 	UUID of the task used to process the new document (if any)
+# TASK_ID 					UUID of the task used to process the new document (if any)
 
 SCRIPT_PATH=$(readlink -f "$0")
 readonly SCRIPT_PATH
@@ -24,20 +24,27 @@ SCRIPT_NAME=$(basename "${SCRIPT_PATH}")
 readonly SCRIPT_NAME
 CONSUMABLE=$(basename "${DOCUMENT_WORKING_PATH}")
 readonly CONSUMABLE
+FILE_TYPE=$(file --mime-type --brief --no-pad "${DOCUMENT_WORKING_PATH}")
+readonly FILE_TYPE
+
 
 printf -- '--- %(%F %H:%M:%S)T | %s -------------------------------------\n' -1 "${SCRIPT_NAME}"
 
-# shellcheck disable=SC2046
-PWD_CORPUS=$(cat $(find "${SCRIPT_DIR}" -type f -iname '*.pwd.txt') | sort -u)
-readonly PWD_CORPUS
-PWD_COUNT=$(printf '%s' "${PWD_CORPUS}" | wc -l | cut -f 1 -d ' ')
-readonly PWD_COUNT
-printf 'password corpus with %u entries assembled\n' "${PWD_COUNT}"
+if [[ "${FILE_TYPE,,}" != 'application/pdf' ]]; then
+	printf '%s is not recognized as PDF file, nothing to do\n' "${CONSUMABLE}"
 
-if qpdf --is-encrypted "${DOCUMENT_WORKING_PATH}"; then
-    decoded=0
-    printf '%s is encrypted, trying to decrypt... ' "${CONSUMABLE}"
-    
+elif qpdf --is-encrypted "${DOCUMENT_WORKING_PATH}";  then
+
+	# shellcheck disable=SC2046
+	PWD_CORPUS=$(cat $(find "${SCRIPT_DIR}" -type f -iname '*.pwd.txt') | sort -u)
+	readonly PWD_CORPUS
+	PWD_COUNT=$(printf '%s' "${PWD_CORPUS}" | wc -l | cut -f 1 -d ' ')
+	readonly PWD_COUNT
+	printf 'password corpus with %u entries assembled\n' "${PWD_COUNT}"
+	
+	printf '%s is encrypted, trying to decrypt... ' "${CONSUMABLE}"
+    decrypted=0
+
     while IFS= read -r pwd_line || [[ -n "${pwd_line}" ]]; do
     
         qpdf --requires-password --password="${pwd_line}" "${DOCUMENT_WORKING_PATH}"
@@ -47,7 +54,7 @@ if qpdf --is-encrypted "${DOCUMENT_WORKING_PATH}"; then
             3)  
                 qpdf --decrypt --password="${pwd_line}" "${DOCUMENT_WORKING_PATH}" --replace-input
                 printf 'decrypted\n'
-                decoded=1
+                decrypted=1
                 
                 printf 'password reminder:\n'
                 case ${#pwd_line} in
@@ -73,7 +80,7 @@ if qpdf --is-encrypted "${DOCUMENT_WORKING_PATH}"; then
         esac
     done < <(printf '%s' "${PWD_CORPUS}")
     
-    if (( decoded != 1 )); then
+    if (( decrypted != 1 )); then
         printf 'failed\n'
         printf 'no password entry matches\n'
     fi
