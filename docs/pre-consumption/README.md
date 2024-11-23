@@ -30,7 +30,9 @@ paperless-ngx/
 ```
 
 The pre-consumption "wrapper" just contains some helper variables and calls to your actual pre-consumption scripts.
-<a name="pre-consumption-wrapper" />
+
+<a name="pre-consumption-wrapper"></a>
+
 ```bash title="pre-consumption-wrapper.sh"
 #!/usr/bin/env bash
 
@@ -51,4 +53,4 @@ python ${SCRIPT_DIR}/custom-script-02/actual-pre-consumption-task-02.py
 
 ## Examples
 
-No examples yet :disappointed_relieved: [Want to add one?](../about/contributing.md)
+Have a look at the examples via the navigation on the left side.

@@ -1,0 +1,15 @@
+{
+    "default": true,
+
+    // Hard tabs
+    "MD010": { "spaces_per_tab": 4 },
+
+    // Line length
+    "MD013": false,
+
+    // Multiple top-level headings in the same document
+    "MD025": { "front_matter_title": "" },
+
+    // Inline HTML
+    "MD033": { "allowed_elements": ["a"] }
+  }
